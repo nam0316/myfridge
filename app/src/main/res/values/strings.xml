@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Test1</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="naver_login">네이버 로그인</string>
+    <string name="kakao_login">카카오 로그인</string>
+    <string name="google_login">구글 로그인</string>
+    <string name="face_login">페이스북 로그인</string>
+    <string-array name="storage_types">
+        <item>냉장</item>
+        <item>냉동</item>
+        <item>실외</item>
+    </string-array>
+
+    <string-array name="item_icons">
+        <item>계란</item>
+        <item>우유</item>
+        <item>고기</item>
+        <item>양파</item>
+    </string-array>
+
+    <string-array name="unit_options">
+        <item>개</item>
+        <item>kg</item>
+        <item>g</item>
+        <item>L</item>
+        <item>ml</item>
+        <item>팩</item>
+        <item>봉지</item>
+        <item>상자</item>
+        <item>병</item>
+        <item>캔</item>
+    </string-array>
+
+
+</resources>

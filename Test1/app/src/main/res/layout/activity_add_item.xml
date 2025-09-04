@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 아이콘 선택 -->
+    <Spinner
+        android:id="@+id/spinner_item_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/item_icons" />
+
+    <!-- 상품명 -->
+    <EditText
+        android:id="@+id/et_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="상품명 입력" />
+
+    <!-- 보관 장소 선택 -->
+    <Spinner
+        android:id="@+id/spinner_storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/storage_types" />
+
+    <!-- 수량 입력 -->
+    <EditText
+        android:id="@+id/et_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="수량 입력" />
+
+    <!-- 유통기한 선택 -->
+    <TextView
+        android:id="@+id/tv_expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="유통기한 선택"
+        android:padding="12dp"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/white" />
+
+    <!-- 저장 버튼 -->
+    <Button
+        android:id="@+id/btn_save_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="저장" />
+
+</LinearLayout>

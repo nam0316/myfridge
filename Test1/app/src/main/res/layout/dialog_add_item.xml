@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 상품 선택 (이미지+이름) -->
+    <Spinner
+        android:id="@+id/spinner_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 개수 입력 -->
+    <EditText
+        android:id="@+id/et_item_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="개수 입력"
+        android:inputType="number" />
+
+    <!-- 유통기한 선택 -->
+    <EditText
+        android:id="@+id/et_item_expiry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="유통기한 (YYYY-MM-DD)"
+        android:focusable="false"
+        android:clickable="true" />
+
+</LinearLayout>

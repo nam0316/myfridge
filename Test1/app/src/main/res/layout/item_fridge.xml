@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- 아이템 이미지 -->
+    <ImageView
+        android:id="@+id/iv_item_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_launcher_foreground" />
+
+    <!-- 아이템 정보 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 상품명 -->
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품명"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- 보관 위치와 수량 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tv_item_storage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="냉장"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" · "
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_item_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1개"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 유통기한 -->
+    <TextView
+        android:id="@+id/tv_item_expiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D-5"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>

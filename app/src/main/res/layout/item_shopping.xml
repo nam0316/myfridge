@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <!-- 체크박스 -->
+        <CheckBox
+            android:id="@+id/checkbox_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:buttonTint="#5865F2" />
+
+        <!-- 상품 정보 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="우유 1L"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2E3A4B" />
+
+            <TextView
+                android:id="@+id/tv_item_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유제품 • 3,000원"
+                android:textSize="13sp"
+                android:textColor="#6C7B8A"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <!-- 상태 표시 -->
+        <TextView
+            android:id="@+id/tv_item_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수량: 1개"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#FF9800"
+            android:background="@drawable/status_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 헤더 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="레시피 📖"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_search_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색"
+            android:backgroundTint="#FF5722" />
+
+    </LinearLayout>
+
+    <!-- 카테고리 탭들 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_category_all"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="전체"
+                android:textSize="12sp"
+                android:backgroundTint="#4CAF50" />
+
+            <Button
+                android:id="@+id/btn_category_korean"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="한식"
+                android:textSize="12sp"
+                android:backgroundTint="#9E9E9E" />
+
+            <Button
+                android:id="@+id/btn_category_chinese"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="중식"
+                android:textSize="12sp"
+                android:backgroundTint="#9E9E9E" />
+
+            <Button
+                android:id="@+id/btn_category_western"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="양식"
+                android:textSize="12sp"
+                android:backgroundTint="#9E9E9E" />
+
+            <Button
+                android:id="@+id/btn_category_japanese"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="일식"
+                android:textSize="12sp"
+                android:backgroundTint="#9E9E9E" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 추천 레시피 섹션 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="냉장고 재료로 만들 수 있는 레시피 🍳"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- 레시피 목록 (ScrollView로 감싸기) -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 레시피 카드 1 -->
+            <LinearLayout
+                android:id="@+id/recipe_card_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF3E0"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="김치찌개"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="필요한 재료: 김치, 돼지고기, 두부, 대파"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="조리시간: 30분 | 난이도: ★★☆"
+                    android:textSize="12sp"
+                    android:textColor="#FF5722" />
+
+            </LinearLayout>
+
+            <!-- 레시피 카드 2 -->
+            <LinearLayout
+                android:id="@+id/recipe_card_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E8F5E8"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="계란볶음밥"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="필요한 재료: 밥, 계란, 파, 간장, 참기름"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="조리시간: 15분 | 난이도: ★☆☆"
+                    android:textSize="12sp"
+                    android:textColor="#FF5722" />
+
+            </LinearLayout>
+
+            <!-- 레시피 카드 3 -->
+            <LinearLayout
+                android:id="@+id/recipe_card_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F3E5F5"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="불고기"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="필요한 재료: 소고기, 양파, 당근, 불고기 양념"
+                    android:textSize="12sp"
+                    android:textColor="#666666"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="조리시간: 45분 | 난이도: ★★★"
+                    android:textSize="12sp"
+                    android:textColor="#FF5722" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

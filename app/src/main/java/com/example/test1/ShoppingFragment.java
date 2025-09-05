@@ -5,7 +5,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +42,8 @@ public class ShoppingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // ActivityResultLauncher 초기화
         addItemLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -72,6 +76,13 @@ public class ShoppingFragment extends Fragment {
                     }
                 }
         );
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_shopping, container, false);
     }
 
     @Override
@@ -271,14 +282,10 @@ public class ShoppingFragment extends Fragment {
     }
 
     private void addNewItem() {
-        List<ShoppingItem> items = shoppingItemsByDate.get(currentSelectedDate);
-        if (items == null) {
-            items = new ArrayList<>();
-            shoppingItemsByDate.put(currentSelectedDate, items);
-        }
-
-        items.add(new ShoppingItem("새 상품", "기타", 1000, 1, false));
-        updateUI();
+        Intent intent = new Intent(getActivity(), AddShoppingItemActivity.class);
+        // 현재 선택된 날짜를 전달
+        intent.putExtra("selected_date", currentSelectedDate);
+        addItemLauncher.launch(intent);
     }
 
     private void clearCompletedItems() {

@@ -43,6 +43,7 @@
 
     <!-- 메인 컨텐츠 ScrollView -->
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -202,6 +203,7 @@
 
                 <!-- 수량 및 단위 선택 -->
                 <LinearLayout
+                    android:id="@+id/layout_quantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -222,7 +224,9 @@
                         android:layout_height="40dp"
                         android:text="-"
                         android:textSize="18sp"
-                        android:background="@drawable/button_outline_background" />
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:background="@drawable/button_quantity_background" />
 
                     <TextView
                         android:id="@+id/tv_quantity"
@@ -241,7 +245,9 @@
                         android:layout_height="40dp"
                         android:text="+"
                         android:textSize="18sp"
-                        android:background="@drawable/button_outline_background" />
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:background="@drawable/button_quantity_background" />
 
                     <Spinner
                         android:id="@+id/spinner_unit"

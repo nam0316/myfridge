@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import java.util.Arrays;
 
 public class AddShoppingItemActivity extends AppCompatActivity {
 
+    private ScrollView scrollView;
     private ImageView btnBack;
     private TabLayout tabCategories;
     private RecyclerView rvProducts;
@@ -50,7 +52,8 @@ public class AddShoppingItemActivity extends AppCompatActivity {
     private ProductAdapter productAdapter;
     private Product selectedProduct;
     private String[] categories;
-    private String selectedDate; // 장보기 날짜
+    private String selectedDate;
+    private int currentQuantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,10 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         if (categories.length > 0) {
             loadProducts(categories[0]);
         }
+
+        // 기본값 설정
+        tvQuantity.setText("1");
+        validateInput();
     }
 
     private void initViews() {
@@ -87,7 +94,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         ivSelectedProduct = findViewById(R.id.iv_selected_product);
         tvSelectedProduct = findViewById(R.id.tv_selected_product);
         etProductName = findViewById(R.id.et_product_name);
-
+        scrollView = findViewById(R.id.scrollView);
         chipGroupCategory = findViewById(R.id.chip_group_category);
 
         tvQuantity = findViewById(R.id.tv_quantity);
@@ -99,6 +106,9 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btn_add);
         btnCancel = findViewById(R.id.btn_cancel);
+
+        // RecyclerView 보이게 설정
+        rvProducts.setVisibility(View.VISIBLE);
     }
 
     private void setupTabs() {
@@ -111,6 +121,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 String category = tab.getText().toString();
                 loadProducts(category);
+                hideSelectedItem(); // 탭 변경시 선택 초기화
             }
 
             @Override
@@ -128,6 +139,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             selectedProduct = product;
             showSelectedItem(product);
             validateInput();
+            scrollToQuantitySection(); // ✅ 자동 스크롤 추가
         });
 
         rvProducts.setAdapter(productAdapter);
@@ -135,7 +147,6 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
     private void setupListeners() {
         btnBack.setOnClickListener(v -> finish());
-
         btnCancel.setOnClickListener(v -> finish());
 
         btnAdd.setOnClickListener(v -> {
@@ -145,15 +156,15 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         });
 
         btnIncrease.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(tvQuantity.getText().toString());
-            tvQuantity.setText(String.valueOf(quantity + 1));
+            currentQuantity++;
+            tvQuantity.setText(String.valueOf(currentQuantity));
             validateInput();
         });
 
         btnDecrease.setOnClickListener(v -> {
-            int quantity = Integer.parseInt(tvQuantity.getText().toString());
-            if (quantity > 1) {
-                tvQuantity.setText(String.valueOf(quantity - 1));
+            if (currentQuantity > 1) {
+                currentQuantity--;
+                tvQuantity.setText(String.valueOf(currentQuantity));
                 validateInput();
             }
         });
@@ -171,9 +182,9 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(android.text.Editable s) {}
         });
+    }
 
-
-        private void loadProducts(String category) {
+    private void loadProducts(String category) {
         Product[] products = Product.getProductsByCategory(category);
         productAdapter.updateProducts(Arrays.asList(products));
     }
@@ -184,13 +195,14 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         tvSelectedProduct.setText(product.getName());
         etProductName.setText(product.getName());
 
-        // 기본값 설정
-        tvQuantity.setText("1");
-        etPrice.setText(""); // 가격은 선택사항이므로 비워둠
-
         // 카테고리에 따른 기본 선택
         setDefaultCategory(product.getCategory());
 
+        validateInput();
+    }
+
+    private void hideSelectedItem() {
+        selectedProduct = null;
         validateInput();
     }
 
@@ -198,6 +210,9 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         switch (category) {
             case "채소":
                 chipGroupCategory.check(R.id.chip_category_vegetables);
+                break;
+            case "야채":
+                chipGroupCategory.check(R.id.chip_category_vegetables); // 야채도 채소로 매핑
                 break;
             case "과일":
                 chipGroupCategory.check(R.id.chip_category_fruits);
@@ -207,9 +222,6 @@ public class AddShoppingItemActivity extends AppCompatActivity {
                 break;
             case "유제품":
                 chipGroupCategory.check(R.id.chip_category_dairy);
-                break;
-            case "냉동식품":
-                chipGroupCategory.check(R.id.chip_category_frozen);
                 break;
             default:
                 chipGroupCategory.check(R.id.chip_category_etc);
@@ -263,7 +275,7 @@ public class AddShoppingItemActivity extends AppCompatActivity {
             }
         }
 
-        // 아이콘 리소스 ID (선택된 상품이 있으면 해당 아이콘, 없으면 기본 아이콘)
+        // 선택된 상품의 아이콘 또는 기본 아이콘
         int iconResId = selectedProduct != null ?
                 selectedProduct.getIconResId() : R.drawable.ic_launcher_foreground;
 
@@ -281,5 +293,12 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
         Toast.makeText(this, "장보기 목록에 추가되었습니다!", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    // ✅ 수량 입력 부분으로 스크롤 이동하는 메서드 수정
+    private void scrollToQuantitySection() {
+        if (scrollView != null && layoutSelectedItem != null) {
+            scrollView.post(() -> scrollView.smoothScrollTo(0, layoutSelectedItem.getTop()));
+        }
     }
 }

@@ -40,5 +40,10 @@
             android:name=".AddItemActivity"
             android:exported="false" />
 
+
+        <activity
+            android:name=".AddShoppingItemActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Test1.NoActionBar" />
     </application>
 </manifest>

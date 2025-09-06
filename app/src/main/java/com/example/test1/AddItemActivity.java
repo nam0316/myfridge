@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -346,6 +347,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         setDefaultStorage(product.getCategory());
         validateInput();
+        scrollToSelectedItem();
     }
 
     private void hideSelectedItem() {
@@ -451,5 +453,24 @@ public class AddItemActivity extends AppCompatActivity {
             setResult(RESULT_OK, resultIntent);
         }
         super.onBackPressed();
+    }
+
+    // ✅ 선택된 아이템 부분으로 스크롤 이동
+    private void scrollToSelectedItem() {
+        if (layoutSelectedItem != null) {
+            // ScrollView 찾기
+            View parent = (View) layoutSelectedItem.getParent();
+            while (parent != null && !(parent instanceof ScrollView)) {
+                parent = (View) parent.getParent();
+            }
+
+            if (parent instanceof ScrollView) {
+                ScrollView scrollView = (ScrollView) parent;
+                // 300ms 후에 스크롤 (UI 업데이트 완료 후)
+                new android.os.Handler().postDelayed(() -> {
+                    scrollView.smoothScrollTo(0, layoutSelectedItem.getTop() - 100);
+                }, 300);
+            }
+        }
     }
 }

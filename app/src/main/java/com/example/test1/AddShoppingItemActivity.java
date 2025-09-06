@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AddShoppingItemActivity extends AppCompatActivity {
 
@@ -55,6 +57,13 @@ public class AddShoppingItemActivity extends AppCompatActivity {
     private String selectedDate;
     private int currentQuantity = 1;
 
+    private EditText etSearch;
+    private ImageView btnClearSearch;
+    private List<Product> allProducts;
+    private List<Product> filteredProducts;
+    private String currentCategory = "전체";
+    private boolean isSearchMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +79,14 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
         categories = Product.getCategories();
 
+        // 전체 상품 목록 초기화
+        allProducts = new ArrayList<>();
+        Product[] products = Product.getProductsByCategory("전체");
+        allProducts.addAll(Arrays.asList(products));
+        filteredProducts = new ArrayList<>(allProducts);
+
         initViews();
-        setupTabs();
+        setupSearch();  // ✅ 이 줄도 추가
         setupProductRecyclerView();
         setupListeners();
 
@@ -90,6 +105,8 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         tabCategories = findViewById(R.id.tab_categories);
         rvProducts = findViewById(R.id.rv_products);
 
+        etSearch = findViewById(R.id.et_search);
+        btnClearSearch = findViewById(R.id.btn_clear_search);
         layoutSelectedItem = findViewById(R.id.layout_selected_item);
         ivSelectedProduct = findViewById(R.id.iv_selected_product);
         tvSelectedProduct = findViewById(R.id.tv_selected_product);
@@ -291,8 +308,10 @@ public class AddShoppingItemActivity extends AppCompatActivity {
 
         setResult(RESULT_OK, resultIntent);
 
-        Toast.makeText(this, "장보기 목록에 추가되었습니다!", Toast.LENGTH_SHORT).show();
-        finish();
+        Toast.makeText(this, productName + "이(가) 장보기 목록에 추가되었습니다!", Toast.LENGTH_SHORT).show();
+
+// ✅ 추가 후 폼 초기화 (종료하지 않음)
+        resetForm();
     }
 
     // ✅ 수량 입력 부분으로 스크롤 이동하는 메서드 수정
@@ -300,5 +319,96 @@ public class AddShoppingItemActivity extends AppCompatActivity {
         if (scrollView != null && layoutSelectedItem != null) {
             scrollView.post(() -> scrollView.smoothScrollTo(0, layoutSelectedItem.getTop()));
         }
+    }
+
+    // ✅ 폼 초기화 메서드 수정
+    private void resetForm() {
+        // 선택된 상품 초기화
+        selectedProduct = null;
+        layoutSelectedItem.setVisibility(View.GONE);
+
+        // 상품명 초기화
+        etProductName.setText("");
+
+        // 수량 초기화
+        currentQuantity = 1;
+        tvQuantity.setText("1");
+
+        // 가격 초기화
+        etPrice.setText("");
+
+        // 카테고리를 기타로 초기화
+        chipGroupCategory.check(R.id.chip_category_etc);
+
+        // 유닛을 기본값(개)으로 초기화
+        if (spinnerUnit != null && spinnerUnit.getAdapter() != null) {
+            spinnerUnit.setSelection(0);
+        }
+
+        // ProductAdapter 선택 초기화
+        if (productAdapter != null) {
+            productAdapter.clearSelection();
+        }
+
+        // 스크롤을 맨 위로 이동
+        if (scrollView != null) {
+            scrollView.smoothScrollTo(0, 0);
+        }
+
+        // 입력 검증
+        validateInput();
+    }
+
+    // ✅ 검색 기능 설정 (resetForm 밖으로 이동)
+    private void setupSearch() {
+        if (etSearch != null) {
+            etSearch.addTextChangedListener(new android.text.TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String query = s.toString().trim();
+                    filterProductsBySearch(query);
+
+                    if (btnClearSearch != null) {
+                        btnClearSearch.setVisibility(query.isEmpty() ? View.GONE : View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(android.text.Editable s) {}
+            });
+        }
+
+        if (btnClearSearch != null) {
+            btnClearSearch.setOnClickListener(v -> {
+                etSearch.setText("");
+                etSearch.clearFocus();
+                isSearchMode = false;
+                loadProducts(currentCategory);
+            });
+        }
+    }
+
+    // ✅ 검색어로 상품 필터링 (resetForm 밖으로 이동)
+    private void filterProductsBySearch(String query) {
+        if (query.isEmpty()) {
+            isSearchMode = false;
+            loadProducts(currentCategory);
+            return;
+        }
+
+        isSearchMode = true;
+        filteredProducts.clear();
+
+        String lowerQuery = query.toLowerCase();
+        for (Product product : allProducts) {
+            if (product.getName().toLowerCase().contains(lowerQuery)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        productAdapter.updateProducts(filteredProducts);
     }
 }

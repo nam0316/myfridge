@@ -38,13 +38,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
-        holder.bind(product, position == selectedPosition);
+        boolean isSelected = position == selectedPosition;
+        holder.bind(product, isSelected);
 
+        final int currentPosition = position; // ✅ 복사
         holder.itemView.setOnClickListener(v -> {
             int oldPosition = selectedPosition;
-            selectedPosition = position;
+            selectedPosition = currentPosition;
 
-            // 이전 선택된 아이템과 새로 선택된 아이템 업데이트
             if (oldPosition != -1) {
                 notifyItemChanged(oldPosition);
             }
@@ -65,6 +66,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.products = newProducts;
         this.selectedPosition = -1;
         notifyDataSetChanged();
+    }
+
+    // ✅ 여기에 추가
+    public void clearSelection() {
+        int oldPosition = selectedPosition;
+        selectedPosition = -1;
+        if (oldPosition != -1) {
+            notifyItemChanged(oldPosition);
+        }
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {

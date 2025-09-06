@@ -365,13 +365,14 @@ public class AddItemActivity extends AppCompatActivity {
                 break;
             case "채소":
             case "과일":
-                chipGroupStorage.check(R.id.chip_storage_room);
+                chipGroupStorage.check(R.id.chip_storage_room); // ✅ 실온 기본
                 break;
             default:
                 chipGroupStorage.check(R.id.chip_storage_fridge);
                 break;
         }
     }
+
 
     private boolean validateInput() {
         String quantityStr = tvQuantity.getText().toString().trim();
@@ -439,11 +440,14 @@ public class AddItemActivity extends AppCompatActivity {
         if (checkedId == R.id.chip_storage_freezer) {
             return "냉동";
         } else if (checkedId == R.id.chip_storage_room) {
-            return "실외";
+            return "실온";   // ✅ 실외 → 실온
+        } else if (checkedId == R.id.chip_storage_other) {
+            return "기타";   // ✅ 기타 추가
         } else {
             return "냉장";
         }
     }
+
 
     @Override
     public void onBackPressed() {

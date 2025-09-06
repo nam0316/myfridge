@@ -42,7 +42,9 @@ public class FridgeFragment extends Fragment {
     // 상수 정의
     private static final String STORAGE_FRIDGE = "냉장";
     private static final String STORAGE_FREEZER = "냉동";
-    private static final String STORAGE_ROOM = "실외";
+    private static final String STORAGE_ROOM = "실온";  // ✅ 실외 → 실온
+    private static final String STORAGE_OTHER = "기타"; // ✅ 추가
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,7 +163,12 @@ public class FridgeFragment extends Fragment {
             for (FridgeItem item : allItems) {
                 if (STORAGE_ROOM.equals(item.getStorage())) displayedItems.add(item);
             }
+        } else if (checkedId == R.id.chip_other) {
+            for (FridgeItem item : allItems) {
+                if (STORAGE_OTHER.equals(item.getStorage())) displayedItems.add(item);
+            }
         }
+
 
         if (adapter != null) adapter.notifyDataSetChanged();
     }

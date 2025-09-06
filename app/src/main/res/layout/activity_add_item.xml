@@ -175,12 +175,21 @@
                         android:checkable="true" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_storage_room"
+                    android:id="@+id/chip_storage_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:text="실온"
+                    android:checkable="true" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_storage_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:text="실외"
+                        android:text="기타"
                         android:checkable="true" />
+
                 </com.google.android.material.chip.ChipGroup>
 
                 <!-- 수량 선택 -->

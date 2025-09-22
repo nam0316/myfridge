@@ -47,4 +47,16 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <!-- ✅ 커스텀 AlertDialog 스타일 -->
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceSmallComponent">@style/RoundedDialog</item>
+        <item name="android:background">#FFFFFF</item> <!-- 배경 흰색 -->
+    </style>
+
+    <style name="RoundedDialog">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- 모서리 둥글기 -->
+    </style>
+
 </resources>

@@ -34,6 +34,12 @@
             android:exported="false" />
 
         <activity android:name=".ui.shopping.AddItemActivity" />
+         <!-- FridgeAddActivity 추가 -->
+        <activity
+            android:name=".ui.shopping.FridgeAddActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.MyApplication" />
 
     </application>
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,25 +17,37 @@ import java.util.List;
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
 
     private List<ShoppingItem> items;
-    private OnItemCheckedListener listener;
+    private OnItemCheckedListener checkedListener;
+    private OnItemClickListener clickListener;
 
-    // ✅ 체크 이벤트 콜백 인터페이스
+    // 체크 이벤트 인터페이스
     public interface OnItemCheckedListener {
         void onItemChecked();
     }
 
+    // 아이템 클릭 이벤트 인터페이스
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.clickListener = listener;
+    }
+
     public ShoppingAdapter(List<ShoppingItem> items, OnItemCheckedListener listener) {
         this.items = items;
-        this.listener = listener;
+        this.checkedListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbItem;
+        ImageView ivIcon;
         TextView tvName, tvPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cbItem = itemView.findViewById(R.id.cb_item);
+            ivIcon = itemView.findViewById(R.id.iv_item_icon);
             tvName = itemView.findViewById(R.id.tv_item_name);
             tvPrice = itemView.findViewById(R.id.tv_item_price);
         }
@@ -52,18 +65,26 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     public void onBindViewHolder(@NonNull ShoppingAdapter.ViewHolder holder, int position) {
         ShoppingItem item = items.get(position);
 
-        // 기존 체크 리스너 제거 (재활용 방지)
         holder.cbItem.setOnCheckedChangeListener(null);
 
-        // 값 세팅
         holder.cbItem.setChecked(item.isChecked());
-        holder.tvName.setText(item.getName());
+        holder.tvName.setText(item.getName() + " (" + item.getQuantity() + "개)");
         holder.tvPrice.setText(item.getPrice() + "원");
 
-        // 체크 이벤트
+        if (item.getIconResId() != 0) {
+            holder.ivIcon.setImageResource(item.getIconResId());
+        }
+
+        // ✅ 아이템 클릭 이벤트
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onItemClick(position);
+            }
+        });
+
         holder.cbItem.setOnCheckedChangeListener((buttonView, isChecked) -> {
             item.setChecked(isChecked);
-            if (listener != null) listener.onItemChecked();
+            if (checkedListener != null) checkedListener.onItemChecked();
         });
     }
 
@@ -72,13 +93,11 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         return items.size();
     }
 
-    // ✅ 체크된 항목 삭제
     public void removeCheckedItems() {
         items.removeIf(ShoppingItem::isChecked);
         notifyDataSetChanged();
     }
 
-    // ✅ 체크 안된 항목 총 금액
     public int getUncheckedTotal() {
         int total = 0;
         for (ShoppingItem item : items) {
@@ -88,4 +107,6 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         }
         return total;
     }
+
+
 }

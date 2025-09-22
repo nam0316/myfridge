@@ -1,5 +1,6 @@
-package com.example.myapplication.ui.shopping;
+package com.example.myapplication.ui.fridge;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,10 +20,13 @@ import com.example.myapplication.R;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-public class AddItemActivity extends AppCompatActivity {
+public class FridgeAddActivity extends AppCompatActivity {
 
     // 검색 관련
     private EditText etSearch;
@@ -39,11 +43,12 @@ public class AddItemActivity extends AppCompatActivity {
     // 수량 관련
     private TextView btnDecrease, btnIncrease;
     private TextView tvQuantity;
-
     private int quantity = 1;
 
-    // 가격 입력
-    private EditText etPrice;
+    // 유통기한 입력
+    private EditText etExpiryDate;
+    private ImageView btnCalendar;
+    private String selectedExpiryDate = "";
 
     // 하단 버튼
     private Button btnCancel, btnAdd;
@@ -71,7 +76,6 @@ public class AddItemActivity extends AppCompatActivity {
         setupEventListeners();
         setupIconRecyclerView();
         setupTabCategories();
-
     }
 
     private void initViews() {
@@ -88,8 +92,8 @@ public class AddItemActivity extends AppCompatActivity {
         btnIncrease = findViewById(R.id.btn_increase);
         tvQuantity = findViewById(R.id.tv_quantity);
 
-
-        etPrice = findViewById(R.id.et_price);
+        etExpiryDate = findViewById(R.id.et_expiry_date);
+        btnCalendar = findViewById(R.id.btn_calendar);
 
         btnCancel = findViewById(R.id.btn_cancel);
         btnAdd = findViewById(R.id.btn_add);
@@ -129,21 +133,17 @@ public class AddItemActivity extends AppCompatActivity {
             tvQuantity.setText(String.valueOf(quantity));
         });
 
+        // 캘린더 버튼과 유통기한 입력 필드
+        btnCalendar.setOnClickListener(v -> showDatePicker());
+        etExpiryDate.setOnClickListener(v -> showDatePicker());
+
         // 취소 버튼
         btnCancel.setOnClickListener(v -> finish());
 
-        // ✅ 추가 버튼 (결과 전달)
+        // 추가 버튼 (결과 전달)
         btnAdd.setOnClickListener(v -> {
             if (selectedIcon == null) {
                 return; // 아이콘 선택 안 했을 때는 그냥 리턴
-            }
-
-            String priceStr = etPrice.getText().toString().trim();
-            int price = 0;
-            try {
-                price = priceStr.isEmpty() ? 0 : Integer.parseInt(priceStr);
-            } catch (NumberFormatException e) {
-                price = 0;
             }
 
             String productName = tvSelectedProduct.getText().toString();
@@ -151,17 +151,14 @@ public class AddItemActivity extends AppCompatActivity {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("name", productName);
             resultIntent.putExtra("quantity", quantity);
-            resultIntent.putExtra("price", price);
+            resultIntent.putExtra("expiryDate", selectedExpiryDate); // 유통기한 추가
             resultIntent.putExtra("iconResId", selectedIcon.getResId());
             resultIntent.putExtra("category", selectedIcon.getCategory());
-
-            // ✅ 단위는 항상 "개"
-            resultIntent.putExtra("unit", "개");
+            resultIntent.putExtra("unit", "개"); // 단위는 항상 "개"
 
             setResult(RESULT_OK, resultIntent);
             finish();
         });
-
     }
 
     private void setupIconRecyclerView() {
@@ -196,6 +193,39 @@ public class AddItemActivity extends AppCompatActivity {
             @Override public void onTabUnselected(TabLayout.Tab tab) {}
             @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+    // 캘린더 날짜 선택 다이얼로그
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    // 선택된 날짜를 Calendar 객체로 생성
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                    // 날짜 포맷팅 (yyyy-MM-dd)
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    selectedExpiryDate = dateFormat.format(selectedDate.getTime());
+
+                    // 사용자에게 보여줄 포맷 (MM월 dd일)
+                    SimpleDateFormat displayFormat = new SimpleDateFormat("MM월 dd일", Locale.getDefault());
+                    String displayDate = displayFormat.format(selectedDate.getTime());
+
+                    etExpiryDate.setText(displayDate);
+                },
+                year, month, day
+        );
+
+        // 오늘 이후 날짜만 선택 가능하도록 설정
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
+        datePickerDialog.show();
     }
 
     private String getCurrentCategory() {

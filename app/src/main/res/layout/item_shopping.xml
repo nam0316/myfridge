@@ -2,28 +2,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical">
+    android:padding="8dp">
 
     <CheckBox
         android:id="@+id/cb_item"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/tv_item_name"
+    <!-- ✅ 아이콘 표시 -->
+    <ImageView
+        android:id="@+id/iv_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="아이콘" />
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:text="상품명"
-        android:textSize="16sp"
-        android:paddingStart="8dp"/>
+        android:layout_marginStart="8dp">
 
-    <TextView
-        android:id="@+id/tv_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1000원"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="상품명" />
+
+        <TextView
+            android:id="@+id/tv_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가격"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
 </LinearLayout>
